@@ -1,10 +1,10 @@
 .ingresar-btn {
     background-color: #ca5e17 !important; /* Fondo naranja */
-    color: #000000 !important; /* Texto negro */
+    color: #4eee05 !important; /* Texto negro */
     border-color: #cc5200 !important; /* Borde naranja oscuro */
 }
 
 .ingresar-btn:hover {
     background-color: #cc5200 !important; /* Naranja oscuro al pasar el mouse */
-    color: #b14d4d !important; /* Texto rojo oscuro */
+    color: #f3db03 !important; /* Texto rojo oscuro */
 }
