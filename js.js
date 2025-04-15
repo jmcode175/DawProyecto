@@ -6,4 +6,8 @@ document.querySelector("form").addEventListener("submit", function (e) {
       e.preventDefault();
     }
   });
+  document.getElementById("tipoNegocio").addEventListener("change", function () {
+    var nuevoTipoContainer = document.getElementById("nuevoTipoNegocioContainer");
+    nuevoTipoContainer.style.display = this.value === "otro" ? "block" : "none";
+  });
   
