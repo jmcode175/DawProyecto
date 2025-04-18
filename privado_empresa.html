@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Privada - Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Mi Empresa</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#busquedaModal">Búsqueda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">Editar Perfil</a></li>
+                </ul>
+                <span class="navbar-text" id="usuarioNombre">Bienvenido, Empresa XYZ</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido de la página -->
+    <div class="container mt-5">
+        <h2>Área Privada - Empresa</h2>
+        <p>Bienvenido a tu espacio de administración. Aquí puedes gestionar tu negocio.</p>
+
+        <!-- Formulario de registro de empresa -->
+        <h3>Registrar Empresa</h3>
+        <form id="registroEmpresa">
+            <div class="mb-3">
+                <label for="nombreEmpresa" class="form-label">Nombre de la empresa</label>
+                <input type="text" class="form-control" id="nombreEmpresa" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefonoEmpresa" class="form-label">Teléfono de contacto</label>
+                <input type="tel" class="form-control" id="telefonoEmpresa" required>
+            </div>
+            <div class="mb-3">
+                <label for="correoEmpresa" class="form-label">Correo de contacto</label>
+                <input type="email" class="form-control" id="correoEmpresa" required>
+            </div>
+            <div class="mb-3">
+                <label for="logoEmpresa" class="form-label">Logo de la empresa</label>
+                <input type="file" class="form-control" id="logoEmpresa">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar Información</button>
+        </form>
+
+        <hr>
+
+        <!-- Formulario de publicación de servicios -->
+        <h3>Publicar Servicio</h3>
+        <form id="publicarServicio">
+            <div class="mb-3">
+                <label for="tipoEmpresa" class="form-label">Tipo de empresa</label>
+                <select class="form-control" id="tipoEmpresa">
+                    <option value="Enfermería a domicilio">Enfermería a domicilio</option>
+                    <option value="Auxiliar de enfermería a domicilio">Auxiliar de enfermería a domicilio</option>
+                    <option value="Compañía">Compañía</option>
+                    <option value="Restaurante">Restaurante</option>
+                    <option value="Consultoría Financiera">Consultoría Financiera</option>
+                    <option value="Tienda de Ropa">Tienda de Ropa</option>
+                    <option value="Supermercado">Supermercado</option>
+                    <option value="Farmacia">Farmacia</option>
+                    <option value="Centro Médico">Centro Médico</option>
+                    <option value="Peluquería">Peluquería</option>
+                    <option value="Barbería">Barbería</option>
+                    <option value="Agencia de Viajes">Agencia de Viajes</option>
+                    <option value="Clínica Dental">Clínica Dental</option>
+                    <option value="Gimnasio">Gimnasio</option>
+                    <option value="Academia de Idiomas">Academia de Idiomas</option>
+                    <option value="Empresa de Transporte">Empresa de Transporte</option>
+                    <option value="Arquitectura">Arquitectura</option>
+                    <option value="Bufete de Abogados">Bufete de Abogados</option>
+                    <option value="Inmobiliaria">Inmobiliaria</option>
+                    <option value="Desarrollo Web">Desarrollo Web</option>
+                    <option value="Tienda de Electrónica">Tienda de Electrónica</option>
+                    <option value="Taller Mecánico">Taller Mecánico</option>
+                    <option value="Centro de Estética">Centro de Estética</option>
+                    <option value="Producción Audiovisual">Producción Audiovisual</option>
+                    <option value="Veterinaria">Veterinaria</option>
+                    <option value="Agencia de Publicidad">Agencia de Publicidad</option>
+                    <option value="Tiendas de Mascotas">Tiendas de Mascotas</option>
+                    <option value="Panadería">Panadería</option>
+                    <option value="Cafetería">Cafetería</option>
+                    <option value="Hostelería">Hostelería</option>
+                    <option value="Empresa de Seguridad">Empresa de Seguridad</option>
+                    <option value="Lavandería">Lavandería</option>
+                    <option value="Centro de Yoga">Centro de Yoga</option>
+                    <option value="Clínica Psicológica">Clínica Psicológica</option>
+                    <option value="Club Deportivo">Club Deportivo</option>
+                    <option value="Carpintería">Carpintería</option>
+                    <option value="Herrería">Herrería</option>
+                    <option value="Fotografía Profesional">Fotografía Profesional</option>
+                    <option value="Escuela de Música">Escuela de Música</option>
+                    <option value="Centro de Capacitación">Centro de Capacitación</option>
+                    <option value="Empresa de Limpieza">Empresa de Limpieza</option>
+                    <option value="Floristería">Floristería</option>
+                    <option value="Estudio de Diseño Gráfico">Estudio de Diseño Gráfico</option>
+                    <option value="Marketing Digital">Marketing Digital</option>
+                    <option value="Agricultura y Cultivos">Agricultura y Cultivos</option>
+                    <option value="Pintura y Decoración">Pintura y Decoración</option>
+                    <option value="Alquiler de Autos">Alquiler de Autos</option>
+                    <option value="Organización de Eventos">Organización de Eventos</option>
+                </select>
+                
+            </div>
+            <div class="mb-3">
+                <label for="descripcionServicio" class="form-label">Servicio que ofrece</label>
+                <textarea class="form-control" id="descripcionServicio" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="imagenServicio" class="form-label">Imagen del servicio</label>
+                <input type="file" class="form-control" id="imagenServicio">
+            </div>
+            <button type="submit" class="btn btn-success">Publicar</button>
+        </form>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simulación de nombre de usuario
+        document.getElementById("usuarioNombre").innerText = "Bienvenido, Empresa XYZ";
+
+        // Función para publicar servicio en index.html
+        document.getElementById("publicarServicio").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const tipo = document.getElementById("tipoEmpresa").value;
+            const descripcion = document.getElementById("descripcionServicio").value;
+
+            // Simulación de publicación en index.html (debes implementar backend real)
+            localStorage.setItem("servicioPublicado", JSON.stringify({ tipo, descripcion }));
+
+            alert("Servicio publicado exitosamente. Se mostrará en la página de inicio.");
+        });
+    </script>
+</body>
+</html>
+
