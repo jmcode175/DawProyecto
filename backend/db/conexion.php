@@ -1,16 +1,6 @@
-<?php
-$host = "localhost";
-$usuario = "root";
-$password = "";
-$base_datos = "servicios_pro";
-
-// Crear conexión
-$conn = new mysqli($host, $usuario, $password, $base_datos);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=localhost;dbname=servicios_pro;charset=utf8", "root", "");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Error en la conexión: " . $e->getMessage());
 }
-
-echo "✅ Conexión exitosa a la base de datos.";
-?>
