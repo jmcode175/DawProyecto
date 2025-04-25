@@ -16,3 +16,26 @@
     height: 100%;
     object-fit: cover; /* Ajusta el tamaño sin deformar la imagen */
 }
+.bg-gradient-primary {
+    background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+}
+
+.navbar .nav-link {
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+.navbar .nav-link.hover-link:hover {
+    color: #ffdd57 !important; /* Amarillo brillante al pasar el cursor */
+    text-shadow: 0px 0px 5px #ffdd57;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}

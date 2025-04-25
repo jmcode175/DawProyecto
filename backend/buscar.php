@@ -1,21 +1,22 @@
 <?php
-header("Content-Type: application/json");
-require_once '../db/conexion.php';
+// Incluye la conexión a la base de datos
+include 'conexion.php';
 
-$consulta = $_GET['consulta'] ?? '';
+// Verifica si se han recibido los datos del formulario
+if (isset($_POST['profession']) && isset($_POST['zone'])) {
+    $profession = $_POST['profession'];
+    $zone = $_POST['zone'];
 
-if (empty($consulta)) {
-    echo json_encode([]);
-    exit;
-}
+    // Consulta SQL para buscar profesionales según la profesión y la zona
+    $query = "SELECT * FROM profesionales WHERE profesion LIKE ? AND zona = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('ss', $profession, $zone);
+    $stmt->execute();
 
-try {
-    $stmt = $conn->prepare("SELECT nombre, descripcion, precio FROM servicios WHERE nombre LIKE ? OR descripcion LIKE ?");
-    $stmt->execute(["%$consulta%", "%$consulta%"]);
-    $servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode($servicios);
-} catch (PDOException $e) {
-    echo json_encode([]);
+    // Obtener resultados
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        echo "<p>" . $row['nombre'] . " - " . $row['zona'] . "</p>";
+    }
 }
 ?>
