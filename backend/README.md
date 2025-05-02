@@ -63,97 +63,129 @@ Registra las contrataciones entre clientes y servicios, incluyendo comisiones y 
 
 ---
 
-## 🔗 Esquema relacional
+## 🔗 Diagrama  relacional
 
 ![Esquema Relacional](./ImagenesReadme/esquema-relacional.png)
 
-## 📅 Pasos realizados
-
-### 🔸 Creación de la estructura de carpetas
-
-- Se organizó el backend en subcarpetas según la funcionalidad:
-  - `auth/`: para autenticación (`registro.php`, `login.php`, etc.)
-  - `db/`: para la conexión y scripts SQL (`conexion.php`, `crear_tablas.sql`)
-  - `paneles/`: vistas separadas por rol de usuario (cliente, profesional, admin)
-  - `ImagenesReadme/`: contiene las imágenes utilizadas en el README
-
-- Esta estructura se integró en el repositorio compartido [DawProyecto]
 
 ---
 
-### 🔸 Archivo `conexion.php`
+## 📁 Estructura del proyecto
 
-- Conecta a la base de datos MySQL usando la extensión `MySQLi`.
-- Permite comprobar si la conexión es correcta y muestra un mensaje.
-- Está situado en:  
-  `backend/db/conexion.php`
-- Se probó desde el navegador accediendo a:  
-  `http://localhost/serviciospro/backend/db/conexion.php`
-- Resultado esperado:  
-  `✅ Conexión exitosa a la base de datos.`
+El backend está organizado en carpetas según su funcionalidad:
 
-  ![Confirmación de conexion exitosa a la base de datos](ImagenesReadme/conexion-exitosa-bd.jpg)
+- `auth/`: autenticación (`registro.php`, `login.php`, etc.)
+- `db/`: conexión y scripts SQL (`conexion.php`, `crear_tablas.sql`)
+- `paneles/`: vistas separadas por tipo de usuario
+- `ImagenesReadme/`: recursos visuales para la documentación
 
 ---
 
-### 🔸 Archivo `registro.php`
+## 🔐 Registro de usuarios
 
-- Recibe datos desde un formulario mediante `POST`.
-- Valida los campos requeridos (`nombre`, `email`, `password`).
-- Encripta la contraseña con `password_hash()` antes de guardarla.
-- Inserta el nuevo usuario en la tabla `usuarios`.
-- Está situado en:  
-  `backend/auth/registro.php`
+### 📄 `registro.php`
+
+- Recibe datos del formulario mediante `POST`
+- Valida campos requeridos (`nombre`, `email`, `password`)
+- Encripta la contraseña con `password_hash()`
+- Inserta al nuevo usuario en la tabla `usuarios`
+
+📂 Ruta: `backend/auth/registro.php`
 
 ---
-
-### 🔸 Formulario HTML de prueba
-
-- Se creó una página HTML simple para probar el registro.
-- Está situada en:  
-  `backend/auth/formulario_registro.html`
-- Permite enviar los datos al script `registro.php` mediante un formulario `<form>`.
-
-![Formulario de login en el navegador](ImagenesReadme/formulario-registro.jpg)
----
-
-### 🔸 Verificación en phpMyAdmin
-
-- Se verificó desde `phpMyAdmin` que los datos se insertaron correctamente en la tabla `usuarios`.
-- El campo `creado_en` aparece con la fecha y hora del registro, gracias al valor predeterminado `CURRENT_TIMESTAMP`.
-
-![Visualización de los usuarios registrados en phpMyAdmin](ImagenesReadme/tabla-usuarios.jpg)
-
-### 🔸 Archivo `login.php`
 
 ### 🧪 Formulario de prueba
 
-Se creó un formulario HTML muy simple para probar `login.php` desde el navegador:
+Se diseñó un formulario HTML simple para probar el registro:
 
-📁 Ubicación:
-backend/auth/formulario_login.html
-🌐 Se accede desde: http://localhost/serviciospro/backend/auth/formulario_login.html
+📂 Ruta: `backend/auth/formulario_registro.html`  
+🌐 Acceso: `http://localhost/serviciospro/backend/auth/formulario_registro.html`
 
-![Formulario de inicio de sesión donde el usuario introduce su email y contraseña para acceder a la plataforma.](ImagenesReadme/formulario-login.jpg)
+![Formulario de registro](ImagenesReadme/formulario-registro.jpg)
 
-- Permite iniciar sesión con email y contraseña desde un formulario HTML.
-- Recupera los datos del formulario mediante el método `POST`.
-- Verifica si el email existe en la base de datos (`usuarios`).
-- Comprueba que la contraseña ingresada coincide con la almacenada (encriptada) usando `password_verify()`.
-- Si las credenciales son correctas:
-  - Inicia una sesión con `session_start()`.
-  - Guarda en `$_SESSION` el `id`, `nombre` y `rol` del usuario.
+---
 
-  ![Resultado exitoso del login con mensaje de bienvenida](ImagenesReadme/funcionamiento-correcto-login.jpg)
+### 📋 Verificación en phpMyAdmin
 
-- En caso de error, muestra mensajes como:
-  - “Contraseña incorrecta.”
-  - “No se encontró ningún usuario con ese email.”
+- Se verificó que los datos se insertan correctamente.
+- El campo `creado_en` se rellena automáticamente con `CURRENT_TIMESTAMP`.
 
-  ![Error al intentar iniciar sesión con usuario no registrado](ImagenesReadme/funcionamiento-usuario-no-existe-login.jpg)
+![Usuarios registrados en phpMyAdmin](ImagenesReadme/tabla-usuarios.jpg)
+
+---
+
+## 🔑 Inicio de sesión
+
+### 📄 `login.php`
+
+- Valida las credenciales enviadas mediante `POST`
+- Verifica el email y la contraseña con `password_verify()`
+- Si son correctos:
+  - Inicia sesión con `session_start()`
+  - Guarda en `$_SESSION` el `id`, `nombre` y `rol` del usuario
+
+📂 Ruta: `backend/auth/login.php`
+
+---
+
+### 🧪 Formulario de prueba
+
+📂 Ruta: `backend/auth/formulario_login.html`  
+🌐 Acceso: `http://localhost/serviciospro/backend/auth/formulario_login.html`
+
+![Formulario de login](ImagenesReadme/formulario-login.jpg)  
+![Login correcto](ImagenesReadme/funcionamiento-correcto-login.jpg)  
+![Error de login](ImagenesReadme/funcionamiento-usuario-no-existe-login.jpg)
+
+---
+
+## 🔄 Redirección según rol
+
+Una vez autenticado, el usuario es redirigido automáticamente al panel correspondiente según su rol:
+
+```php
+$_SESSION['usuario_id'] = $usuario['id'];
+$_SESSION['nombre'] = $usuario['nombre'];
+$_SESSION['rol'] = $usuario['rol'];
+
+switch ($_SESSION['rol']) {
+    case 'cliente':
+        header("Location: ../paneles/cliente.php");
+        break;
+    case 'profesional':
+        header("Location: ../paneles/profesional.php");
+        break;
+    case 'admin':
+        header("Location: ../paneles/admin.php");
+        break;
+    default:
+        echo "⚠️ Rol no reconocido.";
+}
+exit;
 
 📁 Ubicación del archivo:backend/auth/login.php
 ---
+## 🧼 Recuperación del backend
+
+Este backend fue restaurado tras un `push --force` que reescribió el historial.  
+Se utilizó `git rebase` para resolver los conflictos y mantener toda la funcionalidad sin perder archivos.
+
+---
+## ✅ Estado actual
+
+- Registro de usuarios: ✅  
+- Inicio de sesión con sesión: ✅  
+- Redirección automática por rol: ✅  
+- Estructura de base de datos funcional: ✅  
+- CRUD de servicios y contrataciones: ⬜ *(pendiente)*  
+- Integración de pasarela de pagos: ⬜ *(planificada)*  
+- Protección de rutas privadas: ⬜ *(en desarrollo)*
+
+## 🧑‍💻 Autora del backend
+
+**Gemma Castells Arbolí**  
+Proyecto final del módulo de DAW (Desarrollo de Aplicaciones Web)  
+Curso 2024-2025
 
 
 
