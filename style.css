@@ -1,10 +1,41 @@
-.ingresar-btn {
-    background-color: #ca5e17 !important; /* Fondo naranja */
-    color: #4eee05 !important; /* Texto negro */
-    border-color: #cc5200 !important; /* Borde naranja oscuro */
+.image-container {
+    width: 300px; /* Ancho fijo para todas las imágenes */
+    height: 200px; /* Alto fijo */
+    overflow: hidden; /* Evita que las imágenes sobrepasen el contenedor */
+    border-radius: 15px;
+    transition: transform 0.3s;
 }
 
-.ingresar-btn:hover {
-    background-color: #cc5200 !important; /* Naranja oscuro al pasar el mouse */
-    color: #f3db03 !important; /* Texto rojo oscuro */
+.image-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta el tamaño sin deformar la imagen */
+}
+.bg-gradient-primary {
+    background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+}
+
+.navbar .nav-link {
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+.navbar .nav-link.hover-link:hover {
+    color: #ffdd57 !important; /* Amarillo brillante al pasar el cursor */
+    text-shadow: 0px 0px 5px #ffdd57;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
 }

@@ -61,3 +61,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Este archivo solo acepta peticiones POST.";
 }
 ?>
+header("Content-Type: application/json");
+session_start();
+require_once '../db/conexion.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
+    $stmt->execute([$email]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($usuario && password_verify($password, $usuario['password'])) {
+        $_SESSION['usuario_id'] = $usuario['id'];
+        $_SESSION['nombre'] = $usuario['nombre'];
+        $_SESSION['rol'] = $usuario['rol'];
+
+        echo json_encode(["success" => true, "nombre" => $usuario['nombre'], "rol" => $usuario['rol"]]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Credenciales incorrectas"]);
+    }
+}

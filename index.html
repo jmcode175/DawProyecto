@@ -1,233 +1,178 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plataforma de Servicios</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ServiciosProf</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* Estilo interno */
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        .image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+        }
+        .hover-link:hover {
+            color: #ffdd57 !important;
+            text-shadow: 0px 0px 5px #ffdd57;
+        }
+    </style>
 </head>
 <body>
-  <!-- Encabezado -->
-  <header class="bg-primary text-white p-3">
-    <h1 class="text-center">Plataforma de Servicios</h1>
-  </header>
-
-  <!-- Barra de navegación -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#inicio">Inicio</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">Registro</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#busquedaModal">Búsqueda</a></li>
-          <li class="nav-item"><a class="nav-link" href="#sobre-nosotros">Sobre Nosotros</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  
-
-  <!-- Contenido principal -->
-  <div id="inicio" class="container mt-3">
-    <h2>Bienvenido</h2>
-    <p>Busca profesionales y soluciona tus necesidades con los mejores.</p>
-  </div>
-  <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      .imagen-hover {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-  
-      .imagen-hover:hover {
-        transform: scale(1.1);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        filter: brightness(1.2);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container mt-3">
-      <h2 class="text-center"> Encuentra los mejores profesionales cerca de ti.</h2>
-      <div class="row text-center">
-        <div class="col-md-4">
-          <img src="./imagenes/pexels-julianemonarifotografia-31559939.jpg" class="imagen-hover img-fluid" alt="Imagen 1">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-briefcase-fill"></i> ServiciosProf
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link hover-link" href="privado_usuario.html">
+                            <i class="bi bi-person-circle"></i> Área de Cliente
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hover-link" href="privado_empresa.html">
+                            <i class="bi bi-building"></i> Área de Empresa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hover-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hover-link" href="backend/auth/registro.html">
+                            <i class="bi bi-person-plus-fill"></i> Registrarse
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-4">
-          <img src="./imagenes/pexels-kindelmedia-8486923.jpg" class="imagen-hover img-fluid" alt="Imagen 2">
-        </div>
-        <div class="col-md-4">
-          <img src="./imagenes/pexels-tima-miroshnichenko-6195131.jpg" class="imagen-hover img-fluid" alt="Imagen 3">
-        </div>
-      </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-  
-  
-  
-  <!-- Interfaz de Registro Unificado -->
-<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registroModalLabel">Registro</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form id="registroForm">
-          <div class="mb-3">
-            <label for="tipoUsuario" class="form-label">Tipo de usuario</label>
-            <select class="form-control" id="tipoUsuario" required>
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="empresa">Empresa</option>
-              <option value="cliente">Cliente</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" required>
-          </div>
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" id="correo" required>
-          </div>
-          <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" class="form-control" id="telefono" required>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" required>
-          </div>
-          <div class="mb-3">
-            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-            <input type="password" class="form-control" id="confirmPassword" required>
-          </div>
+    </nav>
 
-          <!-- Sección que aparece solo si el usuario es una empresa -->
-          <div id="registroNegocio" style="display: none;">
-            <h5 class="mt-3">Información del Negocio</h5>
-            <div class="mb-3">
-              <label for="nombreNegocio" class="form-label">Nombre del negocio</label>
-              <input type="text" class="form-control" id="nombreNegocio">
+    <!-- Formulario de búsqueda -->
+    <div class="container d-flex justify-content-center align-items-center vh-50 ">
+        <form action="./db/buscar.php" method="POST" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="profession" class="visually-hidden">Profesión</label>
+                <input type="text" class="form-control" id="profession" name="profession" placeholder="Profesión">
             </div>
-            <div class="mb-3">
-              <label for="tipoNegocio" class="form-label">Tipo de negocio</label>
-              <select class="form-control" id="tipoNegocio" required>
-                <option value="" disabled selected>Selecciona una opción</option>
-                <option value="restaurante">Restaurante</option>
-                <option value="tienda">Tienda</option>
-                <option value="servicios">Servicios Profesionales</option>
-                <option value="otro">Otro</option>
-              </select>
+            <div class="col-auto">
+                <label for="zone" class="visually-hidden">Zona</label>
+                <select class="form-control" id="zone" name="zone">
+                    <option value="">Zona</option>
+                    <option value="zona1">Zona 1</option>
+                    <option value="zona2">Zona 2</option>
+                    <option value="zona3">Zona 3</option>
+                </select>
             </div>
-            <div class="mb-3" id="nuevoTipoNegocioContainer" style="display: none;">
-              <label for="nuevoTipoNegocio" class="form-label">Especifica tu tipo de negocio</label>
-              <input type="text" class="form-control" id="nuevoTipoNegocio">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
-            
-            <div class="mb-3">
-              <label for="descripcion" class="form-label">Descripción del negocio</label>
-              <textarea class="form-control" id="descripcion" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="direccion" class="form-label">Dirección</label>
-              <input type="text" class="form-control" id="direccion">
-            </div>
-            <div class="mb-3">
-              <label for="telefonoNegocio" class="form-label">Teléfono</label>
-              <input type="tel" class="form-control" id="telefonoNegocio">
-            </div>
-            <div class="mb-3">
-              <label for="correoNegocio" class="form-label">Correo Electrónico</label>
-              <input type="email" class="form-control" id="correoNegocio">
-            </div>
-            <div class="mb-3">
-              <label for="paginaWeb" class="form-label">Página Web o Redes Sociales</label>
-              <input type="url" class="form-control" id="paginaWeb">
-            </div>
-            <div class="mb-3">
-              <label for="horario" class="form-label">Horario de atención</label>
-              <input type="text" class="form-control" id="horario">
-            </div>
-          </div>
-
-          <button type="button" class="btn btn-primary" onclick="validarRegistro()">Registrar</button>
         </form>
-        <div id="mensaje" class="mt-3 text-success"></div>
-      </div>
     </div>
-  </div>
-</div>
+    
 
-<script>
-  document.getElementById("tipoUsuario").addEventListener("change", function () {
-    var negocioSection = document.getElementById("registroNegocio");
-    negocioSection.style.display = this.value === "empresa" ? "block" : "none";
-  });
-</script>
-
-  <!-- interfaz modal de Búsqueda -->
-  <div class="modal fade" id="busquedaModal" tabindex="-1" aria-labelledby="busquedaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="busquedaModalLabel">Búsqueda de Profesionales</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="criterioBusqueda" class="form-label">Criterio de Búsqueda</label>
-              <input type="text" class="form-control" id="criterioBusqueda" placeholder="Nombre, correo o ID">
+    <!-- Sección de servicios con imágenes -->
+    <div class="container mt-lg-5">
+        <h2 class="text-center mb-4">Servicios Destacados</h2>
+        <div class="row g-4">
+            <!-- Tarjeta 1 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-tima-miroshnichenko-6235238.jpg" class="card-img-top" alt="Servicio 1">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 1</h5>
+                        <p class="card-text">Descripción breve del servicio 1.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-success">Buscar</button>
-          </form>
-          <!-- Resultados -->
-          <div id="resultadosBusqueda" class="mt-3">
-            <p>No hay resultados por ahora...</p>
-          </div>
+    
+            <!-- Tarjeta 2 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-kampus-5920775.jpg" class="card-img-top" alt="Servicio 2">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 2</h5>
+                        <p class="card-text">Descripción breve del servicio 2.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Tarjeta 3 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-tima-miroshnichenko-6195131.jpg" class="card-img-top" alt="Servicio 3">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 3</h5>
+                        <p class="card-text">Descripción breve del servicio 3.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Tarjeta 4 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-julianemonarifotografia-31559939.jpg" class="card-img-top" alt="Servicio 4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 4</h5>
+                        <p class="card-text">Descripción breve del servicio 4.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Tarjeta 5 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-yaroslav-shuraev-8089104.jpg" class="card-img-top" alt="Servicio 5">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 5</h5>
+                        <p class="card-text">Descripción breve del servicio 5.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Tarjeta 6 -->
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="./imagenes/pexels-kindelmedia-8486923.jpg" class="card-img-top" alt="Servicio 6">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Servicio 6</h5>
+                        <p class="card-text">Descripción breve del servicio 6.</p>
+                        <a href="#" class="btn btn-primary">Más información</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div id="sobre-nosotros" class="container mt-3">
-    <h2 class="text-center fs-2 "><b>Sobre Nosotros</b></h2> 
-    <p class="text-center fs-4">Somos una plataforma dedicada a conectar a los mejores profesionales con las necesidades de nuestros usuarios. Nuestro objetivo es facilitar soluciones eficientes y de confianza.</p>
-  </div>
-  
-
-  <!-- Footer -->
-  <footer class="text-center bg-dark text-white mt-4 p-3">
-    <p>© 2025 Proyecto DAW Gemma y JuanMa &copy</p>
-    <a href="#inicio" class="btn btn-primary">Volver al principio</a>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Validación de Contraseñas -->
-  <script>
-    function validarRegistro() {
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      const mensaje = document.getElementById('mensaje');
-
-      if (password === confirmPassword) {
-        mensaje.textContent = '¡Cuenta creada exitosamente!';
-      } else {
-        mensaje.textContent = 'Las contraseñas no coinciden. Inténtalo de nuevo.';
-        mensaje.classList.add('text-danger');
-      }
-    }
-  </script>
-</body>
-</html>
-<!-- Vkuhgñas -->
+    
+    <footer class="bg-dark text-white text-center py-3">
+        <p class="mb-0">&copy; Proyecto DAW 2025 - Gemma y Juan Manuel</p>
+    </footer>
+    
