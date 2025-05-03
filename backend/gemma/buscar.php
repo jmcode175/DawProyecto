@@ -1,8 +1,8 @@
 <?php
-// Incluye la conexión a la base de datos
+// Aqui debe conectarse con db
 include 'conexion.php';
 
-// Verifica si se han recibido los datos del formulario
+// nos deberia confirmar formulario
 if (isset($_POST['profession']) && isset($_POST['zone'])) {
     $profession = $_POST['profession'];
     $zone = $_POST['zone'];
@@ -13,7 +13,7 @@ if (isset($_POST['profession']) && isset($_POST['zone'])) {
     $stmt->bind_param('ss', $profession, $zone);
     $stmt->execute();
 
-    // Obtener resultados
+    // resultados
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
         echo "<p>" . $row['nombre'] . " - " . $row['zona'] . "</p>";

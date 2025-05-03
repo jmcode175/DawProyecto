@@ -6,18 +6,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    $confirmar_password = $_POST['confirmar_password'] ?? ''; // Nuevo campo
     $rol = $_POST['rol'] ?? 'cliente';
     $tipo_cliente = $_POST['tipo_cliente'] ?? 'persona_fisica';
 
     // Validar que los campos no estén vacíos
-    if (empty($nombre) || empty($email) || empty($password)) {
+    if (empty($nombre) || empty($email) || empty($password) || empty($confirmar_password)) {
         echo json_encode(["success" => false, "message" => "Todos los campos son obligatorios"]);
         exit;
     }
 
-    // Verificar si el email ya está registrado
-    require_once '../db/conexion.php';
+    // Validar que las contraseñas coincidan
+    if ($password !== $confirmar_password) {
+        echo json_encode(["success" => false, "message" => "Las contraseñas no coinciden"]);
+        exit;
+    }
 
+    // Verificar si el email ya está registrado
     try {
         $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
@@ -40,4 +45,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-

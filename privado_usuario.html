@@ -5,63 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Área de Usuario - ServiciosPro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<script>// Cargar contrataciones del usuario
-    function cargarContrataciones() {
-        fetch("backend/contrataciones/listar.php")
-            .then(response => response.json())
-            .then(contrataciones => {
-                let lista = document.getElementById("listaContrataciones");
-                lista.innerHTML = "";
-                contrataciones.forEach(contratacion => {
-                    lista.innerHTML += `
-                        <div class="card mt-3">
-                            <div class="card-body">
-                                <h5 class="card-title">${contratacion.nombre_servicio}</h5>
-                                <p>Estado: <strong>${contratacion.estado}</strong></p>
-                                <p>Precio: <strong>${contratacion.precio_total}€</strong></p>
-                            </div>
-                        </div>`;
-                });
-            });
-    }
-    </script>
-<body>
- <!-- Botón "Volver a Inicio" -->
- <a href="index.html" class="btn btn-secondary mt-3">Volver a Inicio</a>
-<div class="container mt-5">
-    <h2 class="text-center">Bienvenido <span id="nombreUsuario"></span></h2>
-    <p class="text-center">Aquí puedes explorar y contratar servicios.</p>
+    <script>
+        let usuarioAutenticado = false; // Variable para simular si el usuario está autenticado
 
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
-                <img src="servicio1.jpg" class="card-img-top" alt="Servicio 1">
-                <div class="card-body">
-                    <h5 class="card-title">Servicio 1</h5>
-                    <button class="btn btn-primary">Contratar</button>
+        // Función para obtener la ubicación del usuario
+        function obtenerGeolocalizacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    document.getElementById("ubicacion").value = `Lat: ${position.coords.latitude}, Lng: ${position.coords.longitude}`;
+                }, (error) => {
+                    alert("No se pudo obtener la ubicación. Por favor, habilita la geolocalización.");
+                });
+            } else {
+                alert("Tu navegador no soporta geolocalización.");
+            }
+        }
+
+        // Función para buscar profesionales
+        function buscarProfesionales(event) {
+            event.preventDefault();
+            if (!usuarioAutenticado) {
+                // Mostrar modal de inicio de sesión si no está autenticado
+                const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+                loginModal.show();
+                return;
+            }
+
+            const profesion = document.getElementById("profesion").value;
+            const ubicacion = document.getElementById("ubicacion").value;
+
+            // Simulación de resultados
+            const resultados = [
+                { nombre: "Juan Pérez", profesion: "Electricista", ubicacion: "Madrid" },
+                { nombre: "María López", profesion: "Fontanera", ubicacion: "Barcelona" },
+                { nombre: "Carlos García", profesion: "Carpintero", ubicacion: "Valencia" }
+            ];
+
+            let listaResultados = document.getElementById("resultados");
+            listaResultados.innerHTML = "";
+            resultados.forEach((resultado) => {
+                listaResultados.innerHTML += `
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${resultado.nombre}</h5>
+                            <p>Profesión: <strong>${resultado.profesion}</strong></p>
+                            <p>Ubicación: <strong>${resultado.ubicacion}</strong></p>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Función para simular inicio de sesión
+        function iniciarSesion() {
+            usuarioAutenticado = true;
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+            loginModal.hide();
+            alert("Inicio de sesión exitoso. Ahora puedes realizar la búsqueda.");
+        }
+    </script>
+</head>
+<body>
+    <!-- Botón "Volver a Inicio" -->
+    <a href="index.html" class="btn btn-secondary mt-3">Volver a Inicio</a>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Bienvenido <span id="nombreUsuario"></span></h2>
+        <p class="text-center">Encuentra el profesional que necesitas.</p>
+
+        <!-- Formulario de búsqueda -->
+        <form class="row g-3" onsubmit="buscarProfesionales(event)">
+            <div class="col-md-6">
+                <label for="profesion" class="form-label">¿Qué profesional estás buscando?</label>
+                <input type="text" class="form-control" id="profesion" placeholder="Ejemplo: Electricista" required>
+            </div>
+            <div class="col-md-6">
+                <label for="ubicacion" class="form-label">¿Dónde lo necesitas?</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="ubicacion" placeholder="Introduce tu ubicación" required>
+                    <button type="button" class="btn btn-outline-secondary" onclick="obtenerGeolocalizacion()">Usar mi ubicación</button>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <img src="servicio2.jpg" class="card-img-top" alt="Servicio 2">
-                <div class="card-body">
-                    <h5 class="card-title">Servicio 2</h5>
-                    <button class="btn btn-primary">Contratar</button>
-                </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
+        </form>
+
+        <!-- Resultados -->
+        <div id="resultados" class="mt-5">
+            <h3 class="text-center">Resultados</h3>
+            <!-- Aquí se muestra los resultados -->
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <img src="servicio3.jpg" class="card-img-top" alt="Servicio 3">
-                <div class="card-body">
-                    <h5 class="card-title">Servicio 3</h5>
-                    <button class="btn btn-primary">Contratar</button>
+    </div>
+
+    <!-- Modal de inicio de sesión -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="event.preventDefault(); iniciarSesion();">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    
-    
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

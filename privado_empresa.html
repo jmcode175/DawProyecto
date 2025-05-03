@@ -8,142 +8,82 @@
 </head>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Obtener datos del usuario
-        fetch("backend/auth/usuario.php")
-            .then(response => response.json())
-            .then(data => {
-                if (data.nombre && data.rol === "empresa") {
-                    document.getElementById("nombreEmpresa").innerText = data.nombre;
-                    cargarServicios(); // Cargar servicios de la empresa
-                    cargarContrataciones(); // Cargar contrataciones recientes
-                } else {
-                    window.location.href = "login.html";
-                }
-            });
-    
-        // Cierre de sesión
-        document.getElementById("cerrarSesion").addEventListener("click", function() {
-            fetch("backend/auth/logout.php").then(() => {
-                window.location.href = "index.html";
-            });
-        });
-    
-        // Agregar nuevo servicio
-        document.getElementById("formServicio").addEventListener("submit", function(event) {
-            event.preventDefault();
-    
-            let formData = new FormData(this);
-    
-            fetch("backend/servicios/agregar.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    cargarServicios(); // Recargar la lista de servicios
-                    document.getElementById("formServicio").reset();
-                } else {
-                    alert("Error al agregar servicio");
-                }
-            });
-        });
-    
+        // Simulación de datos de la empresa
+        const empresa = {
+            nombre: "Tech Solutions",
+            logo: "https://via.placeholder.com/150", // URL del logo
+            servicios: [
+                { nombre: "Desarrollo Web", descripcion: "Creación de sitios web modernos y responsivos." },
+                { nombre: "Soporte Técnico", descripcion: "Resolución de problemas técnicos para empresas." },
+                { nombre: "Consultoría IT", descripcion: "Asesoramiento en tecnología para optimizar procesos." }
+            ],
+            contrataciones: [
+                { nombre_servicio: "Desarrollo Web", estado: "Completado", porcentaje: 60 },
+                { nombre_servicio: "Soporte Técnico", estado: "En proceso", porcentaje: 25 },
+                { nombre_servicio: "Consultoría IT", estado: "Completado", porcentaje: 15 }
+            ]
+        };
+
+        // Mostrar nombre y logo de la empresa
+        document.getElementById("nombreEmpresa").innerText = empresa.nombre;
+        document.getElementById("logoEmpresa").src = empresa.logo;
+
         // Cargar servicios de la empresa
-        function cargarServicios() {
-            fetch("backend/servicios/listar.php")
-                .then(response => response.json())
-                .then(servicios => {
-                    let lista = document.getElementById("listaServicios");
-                    lista.innerHTML = "";
-                    servicios.forEach(servicio => {
-                        lista.innerHTML += `
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${servicio.nombre}</h5>
-                                        <p class="card-text">${servicio.descripcion}</p>
-                                        <p class="text-success">Precio: ${servicio.precio}€</p>
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-                });
-        }
-    
-        // Cargar contrataciones recientes
-        function cargarContrataciones() {
-            fetch("backend/contrataciones/listar.php")
-                .then(response => response.json())
-                .then(contrataciones => {
-                    let lista = document.getElementById("listaContrataciones");
-                    lista.innerHTML = "";
-                    contrataciones.forEach(contratacion => {
-                        lista.innerHTML += `<p>Servicio: ${contratacion.nombre_servicio}, Estado: ${contratacion.estado}</p>`;
-                    });
-                });
-        }
-    });
-    // Cargar contrataciones del usuario
-    function cargarContrataciones() {
-    fetch("backend/contrataciones/listar.php")
-        .then(response => response.json())
-        .then(contrataciones => {
-            let lista = document.getElementById("listaContrataciones");
-            lista.innerHTML = "";
-            contrataciones.forEach(contratacion => {
-                lista.innerHTML += `
-                    <div class="card mt-3">
+        let listaServicios = document.getElementById("listaServicios");
+        empresa.servicios.forEach(servicio => {
+            listaServicios.innerHTML += `
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">${contratacion.nombre_servicio}</h5>
-                            <p>Estado: <strong>${contratacion.estado}</strong></p>
-                            <p>Precio: <strong>${contratacion.precio_total}€</strong></p>
-                            <div class="btn-group">
-                                <button class="btn btn-warning" onclick="actualizarEstado(${contratacion.id}, 'en_proceso')">En proceso</button>
-                                <button class="btn btn-success" onclick="actualizarEstado(${contratacion.id}, 'completado')">Completado</button>
+                            <h5 class="card-title">${servicio.nombre}</h5>
+                            <p class="card-text">${servicio.descripcion}</p>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        // Cargar contrataciones recientes con barra de porcentaje
+        let listaContrataciones = document.getElementById("listaContrataciones");
+        empresa.contrataciones.forEach(contratacion => {
+            listaContrataciones.innerHTML += `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${contratacion.nombre_servicio}</h5>
+                        <p>Estado: <strong>${contratacion.estado}</strong></p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: ${contratacion.porcentaje}%" aria-valuenow="${contratacion.porcentaje}" aria-valuemin="0" aria-valuemax="100">
+                                ${contratacion.porcentaje}%
                             </div>
                         </div>
-                    </div>`;
-            });
+                    </div>
+                </div>`;
         });
-}
-
-function actualizarEstado(contratacion_id, nuevo_estado) {
-    fetch("backend/contrataciones/actualizar_estado.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `contratacion_id=${contratacion_id}&estado=${nuevo_estado}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(data.message);
-            cargarContrataciones(); // Recargar la lista de contrataciones
-        } else {
-            alert("Error al actualizar estado");
-        }
     });
-}
-
-    </script>
-    
+</script>
 <body>
-     <!-- Botón "Volver a Inicio" -->
-     <a href="index.html" class="btn btn-secondary mt-3">Volver a Inicio</a>
-    
-    <div id="mensajeEstado" class="alert d-none" role="alert"></div>
+    <!-- Botón "Volver a Inicio" -->
+    <a href="index.html" class="btn btn-secondary mt-3">Volver a Inicio</a>
 
-<div class="container mt-5">
-    <h2 class="text-center">Bienvenido <span id="nombreEmpresa"></span></h2>
-    <p class="text-center">Aquí puedes gestionar tus servicios y contrataciones.</p>
+    <div class="container mt-5">
+        <!-- Logo y nombre de la empresa -->
+        <div class="text-center mb-4">
+            <img id="logoEmpresa" src="" alt="Logo de la Empresa" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            <h2 class="mt-3">Bienvenido <span id="nombreEmpresa"></span></h2>
+        </div>
 
-    <h3 class="mt-4">Mis Servicios</h3>
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalServicio">Agregar Servicio</button>
+        <!-- Servicios de la empresa -->
+        <h3 class="mt-4">Mis Servicios</h3>
+        <div id="listaServicios" class="row mt-2">
+            <!-- Los servicios de la empresa se cargarán aquí -->
+        </div>
 
-    <div id="listaServicios" class="row mt-2">
-        <!-- Los servicios de la empresa se cargarán aquí -->
+        <!-- Contrataciones recientes -->
+        <h3 class="mt-5">Contrataciones Recientes</h3>
+        <div id="listaContrataciones">
+            <!-- Las contrataciones recientes se cargarán aquí -->
+        </div>
     </div>
 
-    <h3 class="mt-5">Contrataciones Recientes</h3>
-    <div id="listaContrataciones">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
