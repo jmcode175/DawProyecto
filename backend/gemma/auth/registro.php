@@ -6,11 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    $confirmar_password = $_POST['confirmar_password'] ?? ''; // Nuevo campo
     $rol = $_POST['rol'] ?? 'cliente';
     
 
     // Validar que los campos no estén vacíos
-    if (empty($nombre) || empty($email) || empty($password)) {
+    if (empty($nombre) || empty($email) || empty($password) || empty($confirmar_password)) {
         echo json_encode(["success" => false, "message" => "Todos los campos son obligatorios"]);
         exit;
     }
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar si el email ya está registrado
     
 
+    // Verificar si el email ya está registrado
     try {
         $conn = getConnection();
 
@@ -48,4 +50,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 }
 ?>
-
