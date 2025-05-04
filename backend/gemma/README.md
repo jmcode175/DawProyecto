@@ -141,29 +141,53 @@ Se diseñó un formulario HTML simple para probar el registro:
 
 ## 🔄 Redirección según rol
 
-Una vez autenticado, el usuario es redirigido automáticamente al panel correspondiente según su rol:
+El archivo login.php realiza la autenticación de usuarios utilizando PDO y redirige automáticamente al panel correspondiente según el rol del usuario.
 
+### ✅ Proceso paso a paso:
+1. Recibe los datos enviados por POST desde el formulario de inicio de sesión.
+
+2. Valida que el email y la contraseña no estén vacíos.
+
+3. Realiza una consulta segura con PDO para buscar al usuario en la base de datos usuarios.
+
+4. Si existe el usuario y la contraseña es correcta (password_verify()):
+
+    - Se inicia la sesión con session_start().
+
+    - Se guardan los datos en $_SESSION (usuario_id, nombre, rol).
+
+    - Se redirige automáticamente según el rol:
+
+        - *cliente* → privado_usuario.html
+
+        - *profesional* → privado_empresa.html
+
+        - *admin* → admin.php
+
+5. Si los datos no son válidos, se muestra un mensaje de error.
+
+#### 🧾 Fragmento de código relevante
 ```php
-$_SESSION['usuario_id'] = $usuario['id'];
-$_SESSION['nombre'] = $usuario['nombre'];
-$_SESSION['rol'] = $usuario['rol'];
+if ($usuario && password_verify($password, $usuario['password'])) {
+    $_SESSION['usuario_id'] = $usuario['id'];
+    $_SESSION['nombre'] = $usuario['nombre'];
+    $_SESSION['rol'] = $usuario['rol'];
 
-switch ($_SESSION['rol']) {
-    case 'cliente':
-        header("Location: ../paneles/cliente.php");
-        break;
-    case 'profesional':
-        header("Location: ../paneles/profesional.php");
-        break;
-    case 'admin':
-        header("Location: ../paneles/admin.php");
-        break;
-    default:
-        echo "⚠️ Rol no reconocido.";
+    // Redirección según el rol
+    if ($usuario['rol'] === 'cliente') {
+        header("Location: privado_usuario.html");
+    } elseif ($usuario['rol'] === 'profesional') {
+        header("Location: privado_empresa.html");
+    } elseif ($usuario['rol'] === 'admin') {
+        header("Location: admin.php");
+    } else {
+        echo "Rol no reconocido.";
+    }
+    exit();
 }
-exit;
+```
 
-📁 Ubicación del archivo:backend/auth/login.php
+📁 Ubicación del archivo:backend/auth/gemma/login.php
 ---
 ## 🧼 Recuperación del backend
 

@@ -1,85 +1,55 @@
 <?php
-include("../db/conexion.php"); //conexión con la base de datos
-session_start(); // Iniciar sesión
+session_start();
+require_once('../db/conexion.php');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recoger datos del formulario
-    $email = $_POST['email'] ?? ''; 
-    $password = $_POST['password'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? ''; //¿Qué hace el ?? ''? --> Garantiza que si no se envía el campo 'email'
+    //  o 'password', la variable no generará un error, sino que tendrá un valor por defecto ('' en este caso)
 
-    // Validar que no estén vacíos
+
+    // Validar que los campos estén completos
     if (empty($email) || empty($password)) {
-        echo "⚠️ Todos los campos son obligatorios.";
+        echo json_encode(["success" => false, "message" => "Todos los campos son obligatorios"]);
         exit;
     }
 
-    // Buscar usuario por email (sentencias preparadas para evitar inyecciones SQL)
-    $stmt = $conn->prepare("SELECT id, nombre, email, password, rol FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-    //Comprobamos si hay un usuario con ese email. Si se encuentra, se obtiene como array asociativo con fetch_assoc().
+    try {
+        $conn = getConnection();
 
-    if ($resultado->num_rows === 1) {
-        $usuario = $resultado->fetch_assoc();
+        // Consulta segura con PDO
+        $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verificar contraseña
-        if (password_verify($password, $usuario['password'])) {
+        if ($usuario && password_verify($password, $usuario['password'])) {
             // Guardar datos en sesión
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['rol'] = $usuario['rol'];
-            //Voy a cambiar el mensaje de bienvenido por la redireccion del usuario segun su rol
-            //echo "✅ Bienvenido, " . $usuario['nombre'] . ". Rol: " . $usuario['rol'];
-            //Redireccion por rol
-            switch ($_SESSION['rol']) {
-                case 'cliente':
-                    header("Location: ../paneles/cliente.php");
-                    break;
-                case 'profesional':
-                    header("Location: ../paneles/profesional.php");
-                    break;
-                case 'admin':
-                    header("Location: ../paneles/admin.php");
-                    break;
-                default:
-                    echo "⚠️ Rol no reconocido.";
-            }
-        
-            exit;
-        
-        } else {
-            echo "❌ Contraseña incorrecta.";
-        }
-    } else {
-        echo "❌ No se encontró ningún usuario con ese email.";
-    }
 
-    $stmt->close();
-    $conn->close();
+        // Redirigir según el rol
+        if ($usuario['rol'] === 'cliente') {
+            header("Location: privado_usuario.html");
+        } elseif ($usuario['rol'] === 'profesional') {
+            header("Location: privado_empresa.html");
+        } elseif ($usuario['rol'] === 'admin') {
+            header("Location: admin.php");
+        } else {
+            echo "Rol no reconocido.";
+        }
+        exit();
+
+        } else {
+            echo json_encode(["success" => false, "message" => "Credenciales incorrectas"]);
+        }
+
+        closeConnection($conn);
+    } catch (PDOException $e) {
+        echo json_encode(["success" => false, "message" => "Error en el login"]);
+    }
 } else {
-    echo "Este archivo solo acepta peticiones POST.";
+    echo json_encode(["success" => false, "message" => "Método no permitido"]);
 }
 ?>
-header("Content-Type: application/json");
-session_start();
-require_once '../db/conexion.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($usuario && password_verify($password, $usuario['password'])) {
-        $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['rol'] = $usuario['rol'];
-
-        echo json_encode(["success" => true, "nombre" => $usuario['nombre'], "rol" => $usuario['rol"]]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Credenciales incorrectas"]);
-    }
-}

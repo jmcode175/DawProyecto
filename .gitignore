@@ -1,0 +1,7 @@
+# Ignorar el frontend de Juanma y otros archivos no backend
+/imagenes/
+/index.html
+/login.html
+/privado_empresa.html
+/privado_usuario.html
+/style.css

@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $rol = $_POST['rol'] ?? 'cliente';
-    $tipo_cliente = $_POST['tipo_cliente'] ?? 'persona_fisica';
+    
 
     // Validar que los campos no estén vacíos
     if (empty($nombre) || empty($email) || empty($password)) {
@@ -16,14 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Verificar si el email ya está registrado
-    require_once '../db/conexion.php';
+    
 
     try {
+        $conn = getConnection();
+
         $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
 
         if ($stmt->fetch()) {
             echo json_encode(["success" => false, "message" => "El email ya está registrado"]);
+            closeConnection($conn);
             exit;
         }
 
@@ -31,13 +34,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password_encriptada = password_hash($password, PASSWORD_DEFAULT);
 
         // Insertar usuario en la base de datos
-        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, password, rol, tipo_cliente) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$nombre, $email, $password_encriptada, $rol, $tipo_cliente]);
+        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$nombre, $email, $password_encriptada, $rol]);
 
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente"]);
+        closeConnection($conn);
+
     } catch (PDOException $e) {
         echo json_encode(["success" => false, "message" => "Error en el registro"]);
     }
+    
+    closeConnection($conn);
+
 }
 ?>
 
