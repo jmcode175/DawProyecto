@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Área de Empresa - ServiciosPro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Simulación de datos de la empresa
+        const empresa = {
+            nombre: "Tech Solutions",
+            logo: "https://via.placeholder.com/150", // URL del logo
+            servicios: [
+                { nombre: "Desarrollo Web", descripcion: "Creación de sitios web modernos y responsivos." },
+                { nombre: "Soporte Técnico", descripcion: "Resolución de problemas técnicos para empresas." },
+                { nombre: "Consultoría IT", descripcion: "Asesoramiento en tecnología para optimizar procesos." }
+            ],
+            contrataciones: [
+                { nombre_servicio: "Desarrollo Web", estado: "Completado", porcentaje: 60 },
+                { nombre_servicio: "Soporte Técnico", estado: "En proceso", porcentaje: 25 },
+                { nombre_servicio: "Consultoría IT", estado: "Completado", porcentaje: 15 }
+            ]
+        };
+
+        // Mostrar nombre y logo de la empresa
+        document.getElementById("nombreEmpresa").innerText = empresa.nombre;
+        document.getElementById("logoEmpresa").src = empresa.logo;
+
+        // Cargar servicios de la empresa
+        let listaServicios = document.getElementById("listaServicios");
+        empresa.servicios.forEach(servicio => {
+            listaServicios.innerHTML += `
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${servicio.nombre}</h5>
+                            <p class="card-text">${servicio.descripcion}</p>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        // Cargar contrataciones recientes con barra de porcentaje
+        let listaContrataciones = document.getElementById("listaContrataciones");
+        empresa.contrataciones.forEach(contratacion => {
+            listaContrataciones.innerHTML += `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${contratacion.nombre_servicio}</h5>
+                        <p>Estado: <strong>${contratacion.estado}</strong></p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: ${contratacion.porcentaje}%" aria-valuenow="${contratacion.porcentaje}" aria-valuemin="0" aria-valuemax="100">
+                                ${contratacion.porcentaje}%
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    });
+</script>
+<body>
+    <!-- Botón "Volver a Inicio" -->
+    <a href="index.html" class="btn btn-secondary mt-3">Volver a Inicio</a>
+
+    <div class="container mt-5">
+        <!-- Logo y nombre de la empresa -->
+        <div class="text-center mb-4">
+            <img id="logoEmpresa" src="" alt="Logo de la Empresa" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            <h2 class="mt-3">Bienvenido <span id="nombreEmpresa"></span></h2>
+        </div>
+
+        <!-- Servicios de la empresa -->
+        <h3 class="mt-4">Mis Servicios</h3>
+        <div id="listaServicios" class="row mt-2">
+            <!-- Los servicios de la empresa se cargarán aquí -->
+        </div>
+
+        <!-- Contrataciones recientes -->
+        <h3 class="mt-5">Contrataciones Recientes</h3>
+        <div id="listaContrataciones">
+            <!-- Las contrataciones recientes se cargarán aquí -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
